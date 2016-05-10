@@ -35,9 +35,9 @@
 % [2] LeCun, Cortes. Mnist handwritten digit database.
 % -------------------------------------------------------------------------
 
-function [digits,labels]=get_data()
+function [digits,labels]=get_data(FILENAME)
 
-load('./data/data_features.mat','digits', 'labels');
+load(FILENAME,'digits', 'labels');
 [m,N]=size(digits);
 
 %sorting the digits according to labels

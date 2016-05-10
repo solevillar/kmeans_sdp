@@ -1,21 +1,38 @@
 SDP clustering on NMIST data
 *****
-
 Authors: Dustin Mixon, Soledad Villar, Rachel Ward.
 contact: mvillar@math.utexas.edu
 *****
+This code runs Peng and Wei's kmeans SDP [5] (using SDPNAL+ [6]) and 
+Matlab's built in kmeans++ version of Lloyd's algorithm on NMIST data [3] 
+previously preprocessed using TensorFlow [1] (mapped into feature space 
+and saved in './data/data_features.mat'). 
 
-This code runs Peng and Wei's kmeans SDP [4] (using SDPNAL+ [5]) and 
-Matlab's built in kmeans++ version of Lloyd's algorithm on NMIST data [2] 
-previously preprocessed using TensorFlow [1] (mapped into feature space and
-saved in './data/data_features.mat'). 
-
-It prints out a numerical comparison and produces the graphs in [3].
+It prints out a numerical comparison and produces the graphs in [4].
 
 The python script generate_data.py uses TensorFlow to create the feature
-data and saves it in './data/data_features.mat'. It is not necessary to run
-since data is already present but we include the code for completeness.
+data and saves it in './data/data_features.mat'.  
+It is not necessary to run the python code in this experiment since data 
+is already included but we include the code for completeness.
+*****
+Kmeans SDP implementation
 
+The kmeans semidefinite relaxation has several advantages with respect 
+to Lloyds algorithm and kmeans++.
+- It is deterministic.
+- It always converges to the global minimizer of kmeans SDP objective.
+(kmeans++ often gets stuck in local optimizers).
+- Kmeans SDP produces the kmeans optimal for data coming from the
+stochastic ball model with high probability [2].
+- It produces an approximate optimal solution for points coming from
+separated subgaussian mixtures [4].
+- If P is a matrix which columns are the coordinates of the data points
+to cluster; and X is the solution of kmeans SDP, then P*X is a ‘denoised’
+version of the data points. In fact, we observe empirically that, even 
+when the relaxation is not tight, X has many repeated columns.
+- Dual certificates of this SDP can be leveraged to implement a fast 
+certifier of kmeans optimality of clusterings found by faster algorithms
+(see [2]).
 *****
 Requires CVX and SDPNAL+.
 
@@ -24,20 +41,24 @@ critic for this experiment.
 
 *****
 How to run
-Run main.m (in Matlab or Octave). Not tested in Octave
+Run main.m (in Matlab)
 
+Use kmeans_sdp.m to solve the kmeans SDP optimization problem for a 
+provided set of points and number of clusters.
 *****
 
  References:
 [1] Abadi et al. TensorFlow: Large-scale machine learning on heterogeneous 
 systems.
-[2] LeCun, Cortes. Mnist handwritten digit database.
-[3] Mixon, Villar, Ward. Clustering subgaussian mixtures via semidefinite
+[2] Iguchi, Mixon, Peterson, Villar. Probably certifiably correct kmeans 
+clustering.
+[3] LeCun, Cortes. Mnist handwritten digit database.
+[4] Mixon, Villar, Ward. Clustering subgaussian mixtures via semidefinite
 programming
-[4] Peng, Wei. Approximating k-means-type clustering via semidefinite 
+[5] Peng, Wei. Approximating k-means-type clustering via semidefinite 
 programming.
-[5] Yang, Sun, Toh. Sdpnal+: a majorized semismooth newton-cg augmented
+[6] Yang, Sun, Toh. Sdpnal+: a majorized semismooth newton-cg augmented
 lagrangian method for semidefinite programming with nonnegative 
 constraints.
-[6] CVX Research, Inc. CVX: Matlab Software for Disciplined Convex 
+[7] CVX Research, Inc. CVX: Matlab Software for Disciplined Convex 
 Programming

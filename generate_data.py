@@ -1,33 +1,36 @@
-% Author:       This code is mostly from TensorFlow tutorial
-%               https://www.tensorflow.org/versions/r0.8/tutorials/mnist/beginners/index.html
-% Filename:     generate_data.py
-% Last edited:  9 May 2016 
-% Description:  Simple one layer softmax regression using TensorFlow [1] on
-%               NMIST data [2]. Requires TensorFlow installed. Trains a one
-%               layer neural network using 100 random image batches of  
-%               training data for 1000 iterations. Then it runs the neural
-%               network on the first 1000 test images and for each image it 
-%               generates a probability vector of being each of 10 possible
-%               digits. These probability vectors are what we consider 
-%               'features'. We save features and labels on the file 
-%               './data/data_features.mat'. It is not necessary to run this
-%               since data is already present. This code is present for
-%               completeness
-%               
-%
-% Inputs:       
-%               
-% Outputs:        
-% 
-% References:
-% [1] Abadi et al. TensorFlow: Large-scale machine learning on 
-%       heterogeneous systems.
-% [2] LeCun, Cortes. Mnist handwritten digit database.
-% [3] Mixon, Villar, Ward. Clustering subgaussian mixtures via semidefinite
-%       programming
-% [4] Peng, Wei. Approximating k-means-type clustering via semidefinite 
-%       programming.
-% -------------------------------------------------------------------------
+# Author:       This code is mostly from TensorFlow tutorial
+#               https://www.tensorflow.org/versions/r0.8/tutorials/mnist/beginners/index.html
+# Filename:     generate_data.py
+# Last edited:  9 May 2016 
+# Description:  Simple one layer softmax regression using TensorFlow [1] on
+#               NMIST data [2]. Requires TensorFlow installed. Trains a one
+#               layer neural network using 100 random image batches of  
+#               training data for 1000 iterations. Then it runs the neural
+#               network on the first 1000 test images and for each image it 
+#               generates a probability vector of being each of 10 possible
+#               digits. These probability vectors are what we consider 
+#               'features'. We save features and labels on the file 
+#               './data/data_features.mat'. (FILENAME can be changed in the
+#               first line of code). It is not necessary to run this script
+#               since data is already present. This code is present for
+#               completeness
+#               
+#
+# Inputs:       
+#               
+# Outputs:        
+# 
+# References:
+# [1] Abadi et al. TensorFlow: Large-scale machine learning on 
+#       heterogeneous systems.
+# [2] LeCun, Cortes. Mnist handwritten digit database.
+# [3] Mixon, Villar, Ward. Clustering subgaussian mixtures via semidefinite
+#       programming
+# [4] Peng, Wei. Approximating k-means-type clustering via semidefinite 
+#       programming.
+# -------------------------------------------------------------------------
+
+FILENAME='./data/data_features.mat'
 
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
@@ -59,4 +62,4 @@ pr=probabilities.eval(feed_dict={x: mnist.test.images}, session=sess)
 
 import scipy.io as sio
 import numpy as np
-sio.savemat('./data/data_features.mat', {'digits': np.transpose(pr[range(1000)]), 'labels': np.transpose(mnist.test.labels[range(1000)])} )
+sio.savemat(FILENAME, {'digits': np.transpose(pr[range(1000)]), 'labels': np.transpose(mnist.test.labels[range(1000)])} )

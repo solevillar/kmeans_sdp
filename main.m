@@ -5,7 +5,8 @@
 %               and Matlab's built in kmeans++ version of Lloyd's algorithm
 %               on NMIST data [2] 
 %               previously preprocessed using TensorFlow [1] (mapped into
-%               feature space and saved in './data/data_features.mat')
+%               feature space and saved in './data/data_features.mat'). 
+%               Change variable FILENAME for using a different file.
 %               This procedure prints out a numerical comparison and 
 %               produces the graphs in [3]).
 %               Requires CVX [6] and SDPNAL+0.3 (CVX is only required for 
@@ -29,9 +30,8 @@
 % [6] CVX Research, Inc. CVX: Matlab Software for Disciplined Convex 
 %       Programming
 % -------------------------------------------------------------------------
-
-%loading data from file
-[digits,labels]=get_data();
+FILENAME='./data/data_features.mat';
+[digits,labels]=get_data(FILENAME);
 
 k=max(labels);
 N=size(labels,1);
@@ -42,7 +42,7 @@ kmeans_value=value_kmeans(digits, labels)
 
 
 disp('SDP clustering')
-%XX=kmeans_sdp(digits, k);
+XX=kmeans_sdp(digits, k);
 denoised=digits*XX;
 [centers, sdp_labels]=sdp_rounding(denoised, k);
 misclassification_rate=misclassification(labels, sdp_labels)
