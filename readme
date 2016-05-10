@@ -1,0 +1,43 @@
+SDP clustering on NMIST data
+*****
+
+Authors: Dustin Mixon, Soledad Villar, Rachel Ward.
+contact: mvillar@math.utexas.edu
+*****
+
+This code runs Peng and Wei's kmeans SDP [4] (using SDPNAL+ [5]) and 
+Matlab's built in kmeans++ version of Lloyd's algorithm on NMIST data [2] 
+previously preprocessed using TensorFlow [1] (mapped into feature space and
+saved in './data/data_features.mat'). 
+
+It prints out a numerical comparison and produces the graphs in [3].
+
+The python script generate_data.py uses TensorFlow to create the feature
+data and saves it in './data/data_features.mat'. It is not necessary to run
+since data is already present but we include the code for completeness.
+
+*****
+Requires CVX and SDPNAL+.
+
+Note: CVX is only required for running misclassification.m which is not
+critic for this experiment.
+
+*****
+How to run
+Run main.m (in Matlab or Octave). Not tested in Octave
+
+*****
+
+ References:
+[1] Abadi et al. TensorFlow: Large-scale machine learning on heterogeneous 
+systems.
+[2] LeCun, Cortes. Mnist handwritten digit database.
+[3] Mixon, Villar, Ward. Clustering subgaussian mixtures via semidefinite
+programming
+[4] Peng, Wei. Approximating k-means-type clustering via semidefinite 
+programming.
+[5] Yang, Sun, Toh. Sdpnal+: a majorized semismooth newton-cg augmented
+lagrangian method for semidefinite programming with nonnegative 
+constraints.
+[6] CVX Research, Inc. CVX: Matlab Software for Disciplined Convex 
+Programming
